@@ -1,0 +1,159 @@
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+*{
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: 'poppins', sans-serif;
+}
+:root{
+	--clr: #222327;
+    --bg: #ff7878;
+}
+
+.mask-name {
+    position: absolute;
+    align-content: center;
+    color: wheat;
+    font-size: 30px;
+    background-color: turquoise;
+    z-index: 2;
+}
+
+/* .hide { display: none; }
+ */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg,  #1a9,  #00001a);
+}
+
+.navigation {
+    position: absolute;
+    bottom: 0px;
+    width: 400px;
+    height: 60px;
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    z-index: 1;
+}
+
+.navigation ul {
+    display: flex;
+    width: 350px;
+    text-transform: capitalize;
+}
+
+.navigation ul li {
+    position: relative;
+    list-style: none;
+    width: 70px;
+    height: 60px;
+    z-index: 2;
+}
+
+.navigation ul li a {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    text-align: center;
+}
+
+.navigation ul li a .icon {
+    position: relative;
+    display: block;
+    line-height: 65px;
+    font-size: 1.5em;
+    transition: 0.5s;
+    color: #222327;
+}
+
+.navigation ul li.active a .icon {
+    transform: translateY(-30px);
+    color: #2196f3;
+}
+
+.navigation ul li a .text {
+    position: absolute;
+    color: #fff;
+    font-weight: 400;
+    font-size: 0.75em;
+    letter-spacing: 0.05em;
+    transition: 0.5s;
+    opacity: 0;
+    transform: translateY(15px);
+    background: #2196f3;
+    padding: 2px 7px;
+    border-radius: 12px;
+}
+
+.navigation ul li.active a .text {
+    transform: translateY(-4px);
+    opacity: 1;
+}
+
+.indicator {
+    position: absolute;
+    top: -30px;
+    width: 50px;
+    height: 50px;
+    background: #fff;
+    border-radius: 50%;
+    z-index: 1;
+    transition: 0.5s;
+}
+
+.indicator::before {
+    content: "";
+    position: absolute;
+    top: 0px;
+    left: -28px;
+    width: 30px;
+    height: 30px;
+    background: transparent;
+    border-radius: 50%;
+    box-shadow: 15px 18px #fff
+}
+
+.indicator::after {
+    content: "";
+    position: absolute;
+    top: 0px;
+    right: -28px;
+    width: 30px;
+    height: 30px;
+    background: transparent;
+    border-radius: 50%;
+    box-shadow: -15px 18px #fff
+}
+
+.navigation ul li:nth-child(1).active~.indicator{
+	transform: translateX(calc(50px * 5));
+}
+.navigation ul li:nth-child(2).active~.indicator{
+	transform: translateX(calc(50px * 1));
+}
+.navigation ul li:nth-child(3).active~.indicator{
+	transform: translateX(calc(50px * 2));
+}
+.navigation ul li:nth-child(4).active~.indicator{
+	transform: translateX(calc(50px * 3));
+}
+.navigation ul li:nth-child(5).active~.indicator{
+	transform: translateX(calc(50px * 4));
+}
+.navigation ul li:nth-child(6).active~.indicator{
+	transform: translateX(calc(50px * 5));
+}
+.navigation ul li:nth-child(7).active~.indicator{
+	transform: translateX(calc(50px * 1));
+}
