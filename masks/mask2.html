@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://libs.zappar.com/zappar-aframe/0.3.29/zappar-aframe.js"></script>
+    <link rel="stylesheet" type="text/css" href="Style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta charset="utf-8" />
+    <title>Happy NY ©Exilon</title>
+</head>
+
+<body>
+    <div class="mask-block">
+        <a-scene>
+            <!-- Ask user for camera permissions, display some text if permission is denied -->
+            <a-entity zappar-permissions-ui id="permissions"></a-entity>
+    <!--          shows a full-page dialog that informs the user they're using an unsupported browser -->       
+            <a-entity zappar-compatibility-ui id="compatibility"></a-entity>
+    
+            <a-camera zappar-camera="user-facing: true;" />
+    
+            <a-entity zappar-face id="my-face-tracker">
+             <!-- 
+                <a-entity zappar-head-mask="face:#my-face-tracker;"></a-entity>
+                <a-entity gltf-model="url(assets/itog.glb)" position="0 -0.9 0" scale="0.13 0.13 0.13"></a-entity>
+                <a-entity gltf-model="url(assets/itog1.glb)" position="0.5912980000000011 -0.49649463454199827 0" scale="0.29 0.29 0.29"></a-entity>
+                <a-entity gltf-model="url(assets/buck.glb)" rotation="0 3 180" position="0 2 0.1" scale="0.6 0.6 0.6"></a-entity>
+                <a-entity gltf-model="url(assets/carrot.glb)" rotation="80 0 0" position="0 -0.0486203000000001 0.8267238999999991" scale="0.25 0.25 0.25"></a-entity>
+                <a-entity gltf-model="url(assets/itog1.glb)" position="-0.6104669163440013 -0.49649463454199827 0" scale="0.29 0.29 0.29"></a-entity> -->
+            
+                <a-entity gltf-model="url(assets/tigi1.glb)" position="0 0.4 -0.5" scale="0.42 0.5 0.5"></a-entity>
+            </a-entity>
+            <a-entity zappar-face id="face-anchor">
+    
+                <!-- Include a 3D model inside our instant tracker -->
+                <!-- <a-entity geometry="primitive: face-mesh; face: #face-anchor" material="src:url(assets/face2.png); transparent: true;"></a-entity> -->
+    
+        </a-scene>
+    </div>
+
+
+    <!-- тут панелька навигашки -->
+    <div class="navigation">
+        <ul class="list">
+           <li class="item">
+               <a href="/masks/mask1.html" class="link">
+                   <span class="icon"><ion-icon name="chevron-back-outline"></ion-icon></span>
+               </a>
+           </li>
+            <li class="item">
+                <a href="/masks/mask1.html" class="link">
+                    <span class="icon"><img src="assets/snowman.png" height="25px" width="25px"></span>
+                    <span class="text ">1</span>
+                </a>
+            </li>
+           
+            <li class="item active">
+                <a href="#" class="link">
+                    <span class="icon"><ion-icon name="paw-outline"></ion-icon></span>
+                    <span class="text">2</span>
+                </a>
+            </li>
+            <li class="item">
+                <a href="/masks/mask3.html" class="link">
+                    <span class="icon"><img src="assets/deer.png" height="25px" width="25px"></span>
+                    <span class="text">3</span>
+                </a>    
+            </li>
+            <li class="item">
+                <a href="/masks/mask4.html" class="link">
+                    <span class="icon"><img src="assets/christmas-tree.png" height="25px" width="25px"></span>
+                    <span class="text">4</span>
+                </a>
+            </li>
+            <li class="item">
+                <a href="/masks/mask5.html" class="link">
+                    <span class="icon"><img src="assets/snowflake.png" height="25px" width="25px"></span>
+                    <span class="text">5</span>
+                </a>
+            </li>
+           <li class="item">
+               <a href="/masks/mask3.html" class="link">
+                   <span class="icon"><ion-icon name="chevron-forward-outline"></ion-icon></span>
+               </a>
+           </li>
+            <div class="indicator"></div>
+        </ul>
+    </div>
+    <script>
+    const list = document.querySelectorAll(".item");
+
+    function activeLink() {
+    list.forEach((item) =>
+    item.classList.remove("active"));
+    this.classList.add("active");
+    }
+
+    list.forEach((item) =>
+    item.addEventListener("click", activeLink));
+    </script>
+
+    <!-- <script type="text/javascript">
+        /* function activelink(){
+            list.forEach((item)=> 
+                item.classList.remove('active'));
+            this.classList.add('active');
+    
+            } */
+        /*list.forEach((item)=> 
+           item.addEventListener('click', activelink, fNavigation))
+           
+        */
+        let links = document.querySelectorAll('.link'),
+        masks = document.querySelectorAll('.mask');
+
+        document.querySelector('.list').addEventListener('click', fNavigation);
+        
+        function fNavigation(ev) {
+            let oTarget = ev.target;
+            if (oTarget.tagName == 'A') {
+                links.forEach((link, i) => {
+                    masks[i].classList.toggle('hide', (link != oTarget));
+                    link.classList.toggle('active', (link == oTarget));
+                    link.style.backgroundColor = (link == oTarget) ? getComputedStyle(masks[i]).backgroundColor : '';
+                    link[i-1].classList.remove('active');
+                });
+            }
+}  
+   
+    </script> -->
+   <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+   <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <!-- конец панешки навигашки-->
+
+</body>
+
+</html>
