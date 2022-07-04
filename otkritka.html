@@ -1,23 +1,26 @@
 <!DOCTYPE html>
 <html>
-<head>
-     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+  <head>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://libs.zappar.com/zappar-aframe/0.3.29/zappar-aframe.js"></script>
-
+    <link
+      rel="icon"
+      href="https://cdn.glitch.global/614e4f3c-a34c-4c25-bf96-ab4952d8f69f/christmas-tree%20logo.png"
+    />
     <meta charset="utf-8" />
     <title>Вам Открытка!</title>
     <style>
       :root {
-    --button-bg: #90e4be;
-}
-        html,
-        body {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-        }
-        .next {
+        --button-bg: #90e4be;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+      }
+      .next {
         z-index: 2;
         position: absolute;
         bottom: 5px;
@@ -28,106 +31,113 @@
         justify-content: center;
         align-items: center;
         border-radius: 10px;
-   
-        }
- .next a{
-    color: #1a9;
-    padding: 10px 10px;/* отступы от текста до краев */
-    text-decoration: none;/* убираем декорирование */
-    -moz-appearance: button; /* преобразование для Firefox */
-    -webkit-appearance: button; /* преобразование для Chromium */	
-
- }
-
+      }
+      .next a {
+        color: #1a9;
+        padding: 10px 10px;
+        text-decoration: none;
+        -moz-appearance: button;
+        -webkit-appearance: button;
+      }
     </style>
 
     <script>
-        // Only show our content when the image becomes visible
-        AFRAME.registerComponent("visibility-changer", {
-            init: function () {
-                this.el.setAttribute("visible", false)
-                this.el.sceneEl.addEventListener('zappar-visible', () => this.el.setAttribute("visible", true));
-            }
-        });
+      AFRAME.registerComponent("visibility-changer", {
+        init: function () {
+          this.el.setAttribute("visible", false);
+          this.el.sceneEl.addEventListener("zappar-visible", () =>
+            this.el.setAttribute("visible", true)
+          );
+        },
+      });
     </script>
-</head>
-<body>
-
-    <!-- START OUR A-FRAME SCENE -->
+  </head>
+  <body>
     <a-scene loading-screen="backgroundColor: #344A60">
-         <!-- Ask user for camera permissions, display some text if permission is denied -->
-         <a-entity zappar-permissions-ui id="permissions"></a-entity>
-         <!-- shows a full-page dialog that informs the user they're using an unsupported browser -->
-         <a-entity zappar-compatibility-ui id="compatibility"></a-entity>
+      <!-- Ask user for camera permissions, display some text if permission is denied -->
+      <a-entity zappar-permissions-ui id="permissions"></a-entity>
+      <!-- shows a full-page dialog that informs the user they're using an unsupported browser -->
+      <a-entity zappar-compatibility-ui id="compatibility"></a-entity>
 
-        <!-- PRE-LOAD OUR ASSETS FOR PERFORMANCE -->
-        <a-assets>
-            <!-- PLANE BACKGROUND -->
-            <img id="card-plain" src="assets/2_fon.png" />
+      <!-- PRE-LOAD OUR ASSETS FOR PERFORMANCE -->
+      <a-assets>
+        <!-- PLANE BACKGROUND -->
+        <img id="card-plain" src="assets/postcard-bg.png" />
+        <a-mixin
+          id="iconProperties"
+          scale="0.4 0.4 0.4"
+          material="alpha-test:0.5"
+          animation="property: scale; to: 0.5 0.5 0.5; dir: alternate; dur: 2000; loop:true;"
+        ></a-mixin>
+      </a-assets>
+      <!-- END ASSET PRE-LOADING -->
 
-            <!-- MENU ITEMS -->
-            <img id="web-icon" src="assets/WebLaunch.png"/>
-            <img id="facebook-icon" src="assets/Facebook.png"/>
-            <img id="phone-icon" src="assets/Phone.png"/>
-            <!-- MENU ITEM MIXIN -->
-            <a-mixin id="iconProperties" scale="0.4 0.4 0.4" material="alpha-test:0.5" animation="property: scale; to: 0.5 0.5 0.5; dir: alternate; dur: 2000; loop:true;"></a-mixin>
-        </a-assets>
-        <!-- END ASSET PRE-LOADING -->
+      <!-- ALLOW USER TO CLICK ON ELEMENTS BY ADDING CURSOR COMPONENT & IDENTIFY RAYCASTER OBJECTS FOR BETTER PERFORMANCE -->
+      <a-camera
+        zappar-camera
+        cursor="rayOrigin: mouse; fuse: false;"
+        raycaster="objects: .collidable"
+      ></a-camera>
 
-        <!-- CREATE A-FRAME CAMERA AND REPLACE IT WITH ZAPPAR'S CAMERA -->
-        <!-- ALLOW USER TO CLICK ON ELEMENTS BY ADDING CURSOR COMPONENT & IDENTIFY RAYCASTER OBJECTS FOR BETTER PERFORMANCE -->
-        <a-camera zappar-camera cursor="rayOrigin: mouse; fuse: false;" raycaster="objects: .collidable"></a-camera>
+      <!-- SET UP OUR EXPERIENCE AS IMAGE TRACKING & GIVE IT AN IMAGE TO TRACK -->
+      <a-entity zappar-image="target: assets/postcard-tracking.zpt">
+        <!-- Have a group that will only become visible when the target image comes into view-->
+        <a-entity visibility-changer>
+          <!-- REMEMBER - 3D OBJECTS TRACK FROM THE CENTER OF THE IMAGE -->
+          <!-- ANIMATED PLANE BACKGROUND -->
+          <a-image
+            id="card-background"
+            src="#card-plain"
+            height="2"
+            width="3"
+            position="0 0 0"
+            material="alpha-test:0.5"
+          ></a-image>
 
-        <!-- SET UP OUR EXPERIENCE AS IMAGE TRACKING & GIVE IT AN IMAGE TO TRACK -->
-        <a-entity zappar-image="target: assets/example-tracking-image.zpt">
-            <!-- Have a group that will only become visible when the target image comes into view-->
-            <a-entity visibility-changer>
+          <!-- NAME AND JOB TITLE -->
+          <a-entity id="name-and-title">
+            <script>
+              var a = Math.round(Math.random() * 4);
+              // это число должно совпадать с максимальным индексом таблицы ссылок
 
-                <!-- REMEMBER - 3D OBJECTS TRACK FROM THE CENTER OF THE IMAGE -->
-                <!-- ANIMATED PLANE BACKGROUND -->
-                <a-image id="card-background" src="#card-plain" height="2" width="3" position="0 0 0" material="alpha-test:0.5"></a-image>
+              txt = new Array();
+              txt[0] =
+                '<a-entity id="title" text="anchor: center; color: #c5283d; font: assets/postcard-font.fnt; fontImage: assets/postcard-font.png; value: Dear programmer, let in the New Year you have a large computer, and on it - many, many different programs!; align: center;" position="0 0 0" scale="3 3 3"></a-entity>';
+              txt[1] =
+                '<a-entity id="title" text="anchor: center; color: #c5283d; font: assets/postcard-font.fnt; fontImage: assets/postcard-font.png; value: Dear programmer friend, I wish you to become a programmer and write a program that will only work on your boss computer;" position="0 0 0" scale="3 3 3"></a-entity>';
+              txt[2] =
+                '<a-entity id="title" text="anchor: center; color: #c5283d; font: assets/postcard-font.fnt; fontImage: assets/postcard-font.png; value: Dear Programmer, in New 2022 I wish you to become programmer and live in a world where everyone works for you; align: center;" position="0 0 0" scale="3 3 3"></a-entity>';
+              txt[3] =
+                '<a-entity id="title" text="anchor: center; color: #c5283d; font: assets/postcard-font.fnt; fontImage: assets/postcard-font.png; value: Dear Programmer, Happy New 2022 year! I wish that in your new the computer was bigger free space; align: center;" position="0 0 0" scale="3 3 3"></a-entity>';
+              txt[4] =
+                '<a-entity id="title" text="anchor: center; color: #c5283d; font: assets/postcard-font.fnt; fontImage: assets/postcard-font.png; value: Dear programmer, Happy New Year 2022 to you! I wish you to become programmer and write a program so that all programmers in the world can download it; align: center;" position="0 0 0" scale="3 3 3"></a-entity>';
+              txt[5] =
+                '<a-entity id="title" text="anchor: center; color: #c5283d; font: assets/postcard-font.fnt; fontImage: assets/postcard-font.png; value: Dear programmer, Happy New Year 2022! Have a lot of money so you can sit in a chair and watch videos with cats; align: center;" position="0 0 0" scale="3 3 3"></a-entity>';
+              txt[6] =
+                '<a-entity id="title" text="anchor: center; color: #c5283d; font: assets/postcard-font.fnt; fontImage: assets/postcard-font.png; value: Dear programmer, may you find a file with New Years greetings on your computer in 2022, and then I will give you a new one!; align: center;" position="0 0 0" scale="3 3 3"></a-entity>';
+              document.write("" + txt[a] + "");
+            </script>
+          </a-entity>
+          <!-- END NAME AND JOB TITLE -->
 
-                <!-- NAME AND JOB TITLE -->
-                <a-entity id="name-and-title">
-                  <script>
-                    var a=Math.round(Math.random()*4)
-                    // это число должно совпадать с максимальным индексом таблицы ссылок
-                    
-                    txt = new Array();
-                    txt[0]='<a-entity id="title" text="anchor: center; color: #c5283d; font: assets/uAsRkImYi2tBAaXTNn_kadfI.fnt; fontImage: assets/uAsRkImYi2tBAaXTNn_kadfI.png; value: Dear programmer, let in the New Year you have a large computer, and on it - many, many different programs!; align: center;" position="0 0 0" scale="3 3 3"></a-entity>'
-                    txt[1]='<a-entity id="title" text="anchor: center; color: #c5283d; font: assets/uAsRkImYi2tBAaXTNn_kadfI.fnt; fontImage: assets/uAsRkImYi2tBAaXTNn_kadfI.png; value: Dear programmer friend, I wish you to become a programmer and write a program that will only work on your boss computer;" position="0 0 0" scale="3 3 3"></a-entity>'
-                    txt[2]='<a-entity id="title" text="anchor: center; color: #c5283d; font: assets/uAsRkImYi2tBAaXTNn_kadfI.fnt; fontImage: assets/uAsRkImYi2tBAaXTNn_kadfI.png; value: Dear Programmer, in New 2022 I wish you to become programmer and live in a world where everyone works for you; align: center;" position="0 0 0" scale="3 3 3"></a-entity>'
-                    txt[3]='<a-entity id="title" text="anchor: center; color: #c5283d; font: assets/uAsRkImYi2tBAaXTNn_kadfI.fnt; fontImage: assets/uAsRkImYi2tBAaXTNn_kadfI.png; value: Dear Programmer, Happy New 2022 year! I wish that in your new the computer was bigger free space; align: center;" position="0 0 0" scale="3 3 3"></a-entity>'
-                    txt[4]='<a-entity id="title" text="anchor: center; color: #c5283d; font: assets/uAsRkImYi2tBAaXTNn_kadfI.fnt; fontImage: assets/uAsRkImYi2tBAaXTNn_kadfI.png; value: Dear programmer, Happy New Year 2022 to you! I wish you to become programmer and write a program so that all programmers in the world can download it; align: center;" position="0 0 0" scale="3 3 3"></a-entity>'
-                    txt[5]='<a-entity id="title" text="anchor: center; color: #c5283d; font: assets/uAsRkImYi2tBAaXTNn_kadfI.fnt; fontImage: assets/uAsRkImYi2tBAaXTNn_kadfI.png; value: Dear programmer, Happy New Year 2022! Have a lot of money so you can sit in a chair and watch videos with cats; align: center;" position="0 0 0" scale="3 3 3"></a-entity>'
-                    txt[6]='<a-entity id="title" text="anchor: center; color: #c5283d; font: assets/uAsRkImYi2tBAaXTNn_kadfI.fnt; fontImage: assets/uAsRkImYi2tBAaXTNn_kadfI.png; value: Dear programmer, may you find a file with New Years greetings on your computer in 2022, and then I will give you a new one!; align: center;" position="0 0 0" scale="3 3 3"></a-entity>'
-                    document.write (""+txt[a]+"");
-                    </script>
-                    <!-- <a-entity id="name" text="font: https://cdn.aframe.io/fonts/Aileron-Semibold.fnt; value: Francesca Ellis; color: #FFF;" position="0.3 0 0" scale="3.5 3.5 3.5"></a-entity> -->
-                    <!-- <a-entity id="title" text="color: #222327; font: assets/uAsRkImYi2tBAaXTNn_kadfI.fnt; fontImage: assets/uAsRkImYi2tBAaXTNn_kadfI.png; value: Dear programmer, let in the New Year you have a large computer, and on it - many, many different programs!; align: center;" position="0 0 0" scale="3 3 3"></a-entity> -->
-                </a-entity>
-                <!-- END NAME AND JOB TITLE -->
-
-                <!-- MENU ITEMS -->
-                <a-entity id="menu-items">
-                    <!-- <a-image src="#web-icon" class="collidable" position="-1.2 0.6 0.3" mixin="iconProperties" link="href: https://zap.works; title: My Homepage;" animation="delay: 1000;"></a-image> -->
-                    <!-- <a-image src="#facebook-icon" class="collidable" position="-0.7 0.6 0.3" mixin="iconProperties" link="href: https://zap.works; title: My Facebook;" animation="delay: 2000;"></a-image> -->
-                    <a-image src="assets/refresh.png" class="collidable" position="0. -0.7 0.01" mixin="iconProperties" link="href: otkritka.html;" animation="delay: 3000;"></a-image>
-                </a-entity>
-                <!-- END MENU ITEMS -->
-
-                <!-- ZAPPAR LOGO 3D MODEL (OVER BACKGROUND) SOUND EFFECTS OBTAINED FROM https://www.zapsplat.com - STANDARD LICENSE https://www.zapsplat.com/license-type/standard-license/ -->
-                <!-- <a-entity id="bolt" gltf-model="assets/ZapparLog.glb" class="collidable" position="0.6 0 0.3" scale="2 1.9 2" sound="src: url(assets/zapsplat_laser.mp3); on: click;"></a-entity> -->
-
-                <!-- CALL TO ACTION TEXT -->
-                <!-- <a-entity id="cta" text="font: https://cdn.aframe.io/fonts/Aileron-Semibold.fnt; value: Tap on an icon to \n find out more!; color: #FFF; align: center;" position="-0.7 -0.5 0.3" scale="3 3 3"></a-entity> -->
-
-            </a-entity>
-            <!-- END VISIBILITY CHANGER -->
+          <!-- MENU ITEMS -->
+          <a-entity id="menu-items">
+            <a-image
+              src="assets/refresh.png"
+              class="collidable"
+              position="0. -0.7 0.01"
+              mixin="iconProperties"
+              link="href: otkritka.html;"
+              animation="delay: 3000;"
+            ></a-image>
+          </a-entity>
+          <!-- END MENU ITEMS -->
         </a-entity>
-        <!-- END TRACKING EXPERIENCE -->
-    </a-scene> <!-- END SCENE -->
-    <div class="next"> <a href="present.html">На следующее задание</a> </div>
-</body>
-
+        <!-- END VISIBILITY CHANGER -->
+      </a-entity>
+      <!-- END TRACKING EXPERIENCE -->
+    </a-scene>
+    <!-- END SCENE -->
+    <div class="next"><a href="present.html">На следующее задание</a></div>
+  </body>
 </html>

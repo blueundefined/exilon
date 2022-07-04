@@ -1,137 +1,128 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://libs.zappar.com/zappar-aframe/0.3.29/zappar-aframe.js"></script>
+    <link rel="stylesheet" href="elochki.css" />
+    <link
+      rel="icon"
+      href="https://cdn.glitch.global/614e4f3c-a34c-4c25-bf96-ab4952d8f69f/christmas-tree%20logo.png"
+    />
+    <!-- We need A-Frame Extras to run animations -->
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.0/dist/aframe-extras.min.js"></script>
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"
+    ></script>
 
-<head>
-  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
- <script src="https://libs.zappar.com/zappar-aframe/0.3.29/zappar-aframe.js"></script>
- <link rel="stylesheet" href="elochki.css">
- <!-- We need A-Frame Extras to run animations -->
- <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.0/dist/aframe-extras.min.js"></script>
- <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
- <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <meta charset="utf-8" />
+    <title>Ёлочка</title>
 
- <meta charset="utf-8" />
- <title>Ёлочка</title>
+    <script>
+      // Only show our content when the image becomes visible
+      AFRAME.registerComponent("visibility-changer", {
+        init: function () {
+          this.el.setAttribute("visible", false);
+          this.el.sceneEl.addEventListener("zappar-visible", () =>
+            this.el.setAttribute("visible", true)
+          );
+        },
+      });
 
-  <script>
+      // Register a component that will register an event listener for when our raycaster detects an object
+      AFRAME.registerComponent("collider-check", {
+        dependencies: ["raycaster"],
+        init: function () {
+          this.el.addEventListener("raycaster-intersection", function () {
+            // When the object is detected, play the animation
+            const model = document.getElementById("model");
+            model.setAttribute("animation-mixer", "clip:null");
+            model.setAttribute(
+              "animation-mixer",
+              "clip: Armature|mixamo.com|Layer0; repetitions : 1"
+            );
+          });
+        },
+      });
+    </script>
+  </head>
 
-        // Only show our content when the image becomes visible
-        AFRAME.registerComponent("visibility-changer", {
-            init: function () {
-                this.el.setAttribute("visible", false)
-                this.el.sceneEl.addEventListener('zappar-visible', () => this.el.setAttribute("visible", true));
-            }
-        })
-
-        // Register a component that will register an event listener for when our raycaster detects an object
-        AFRAME.registerComponent('collider-check', {
-            dependencies: ['raycaster'],
-            init: function () {
-                this.el.addEventListener('raycaster-intersection', function () {
-                    // When the object is detected, play the animation
-                    const model = document.getElementById('model');
-                    model.setAttribute("animation-mixer", "clip:null")
-                    model.setAttribute("animation-mixer", "clip: Armature|mixamo.com|Layer0; repetitions : 1");
-                });
-            }
-        });
-  </script>
-</head>
-
-<body>
-  <!-- тут панелька навигашки -->
-  <div class="navigation">
-    <ul>
+  <body>
+    <!-- тут панелька навигашки -->
+    <div class="navigation">
+      <ul>
         <li class="list">
-            <a href="#">
-                <span class="icon"></span>
-                <span class="text"></span>
-            </a>
+          <a href="#">
+            <span class="icon"></span>
+            <span class="text"></span>
+          </a>
         </li>
         <li class="list list-1">
-            <a href="elkablue.html">
-                <span class="icon">
-                    <ion-icon name="logo-ionic"></ion-icon>
-                </span>
-                <span class="text">blue</span>
-            </a>
+          <a href="elkablue.html">
+            <span class="icon">
+              <ion-icon name="logo-ionic"></ion-icon>
+            </span>
+            <span class="text">blue</span>
+          </a>
         </li>
         <li class="list list-2">
-            <a href="elkared.html">
-                <span class="icon">
-                    <ion-icon name="logo-ionic"></ion-icon>
-                </span>
-                <span class="text">red</span>
-            </a>
+          <a href="elkared.html">
+            <span class="icon">
+              <ion-icon name="logo-ionic"></ion-icon>
+            </span>
+            <span class="text">red</span>
+          </a>
         </li>
         <li class="list list-3 active">
-            <a href="#">
-                <span class="icon">
-                    <ion-icon name="logo-ionic"></ion-icon>
-                </span>
-                <span class="text">yellow</span>
-            </a>
+          <a href="#">
+            <span class="icon">
+              <ion-icon name="logo-ionic"></ion-icon>
+            </span>
+            <span class="text">yellow</span>
+          </a>
         </li>
         <li class="list">
-            <a href="#">
-                <span class="icon"></span>
-                <span class="text"></span>
-            </a>
+          <a href="#">
+            <span class="icon"></span>
+            <span class="text"></span>
+          </a>
         </li>
         <div class="indicator"></div>
-    </ul>
-  </div>
-  <div class="next"> <a href="otkritka.html">На следующее задание</a> </div>
-  <script>
+      </ul>
+    </div>
+    <div class="next"><a href="otkritka.html">На следующее задание</a></div>
+    <script>
       const list = document.querySelectorAll(".list");
-  
+
       function activeLink() {
-          list.forEach((item) =>
-          item.classList.remove("active"));
-          this.classList.add("active");
+        list.forEach((item) => item.classList.remove("active"));
+        this.classList.add("active");
       }
-  
-      list.forEach((item) =>
-      item.addEventListener("click", activeLink));
-  </script>
-<!-- <script type="text/javascript">
-  /* function activelink(){
-      list.forEach((item)=> 
-          item.classList.remove('active'));
-      this.classList.add('active');
 
-      } */
-  /*list.forEach((item)=> 
-     item.addEventListener('click', activelink, fNavigation))
-     
-  */
-  let links = document.querySelectorAll('.link'),
-  masks = document.querySelectorAll('.mask');
-
-  document.querySelector('.list').addEventListener('click', fNavigation);
-  
-  function fNavigation(ev) {
-      let oTarget = ev.target;
-      if (oTarget.tagName == 'A') {
-          links.forEach((link, i) => {
-              masks[i].classList.toggle('hide', (link != oTarget));
-              link.classList.toggle('active', (link == oTarget));
-              link.style.backgroundColor = (link == oTarget) ? getComputedStyle(masks[i]).backgroundColor : '';
-              link[i-1].classList.remove('active');
-          });
-      }
-}  
-
-</script> -->
-<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-<!-- конец панешки навигашки-->
+      list.forEach((item) => item.addEventListener("click", activeLink));
+    </script>
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"
+    ></script>
+    <!-- конец панешки навигашки-->
     <a-scene>
-      <a-mixin id="rotate" animation="property: rotation; loop: true; from: 90 0 0; to: 90 360 0; dur: 20000; easing: linear;"></a-mixin>
-        <!-- Ask user for camera permissions, display some text if permission is denied -->
-        <a-entity zappar-permissions-ui id="permissions"></a-entity>
-        <!-- shows a full-page dialog that informs the user they're using an unsupported browser -->
-        <a-entity zappar-compatibility-ui id="compatibility"></a-entity>
+      <a-mixin
+        id="rotate"
+        animation="property: rotation; loop: true; from: 90 0 0; to: 90 360 0; dur: 20000; easing: linear;"
+      ></a-mixin>
+      <!-- Ask user for camera permissions, display some text if permission is denied -->
+      <a-entity zappar-permissions-ui id="permissions"></a-entity>
+      <!-- shows a full-page dialog that informs the user they're using an unsupported browser -->
+      <a-entity zappar-compatibility-ui id="compatibility"></a-entity>
 
       <a-camera zappar-camera>
         <!-- Inside our camera, include a raycaster that looks down the center of the camera -->
@@ -139,24 +130,31 @@
         <a-entity collider-check raycaster="objects: .collidable"></a-entity>
       </a-camera>
 
-      <a-entity zappar-image="target: assets/example-tracking-image.zpt">
-
+      <a-entity zappar-image="target: assets/postcard-tracking.zpt">
         <!-- Have a group that will only become visible when the target image comes into view-->
         <a-entity visibility-changer>
-
           <!-- Have a hotspot plane that can be detected by the raycaster -->
-          <a-plane class="collidable" color="#000000" material="transparent: true; opacity: 0.1;" width="1" height="1" position="0 0 -0.01 "></a-plane>
+          <a-plane
+            class="collidable"
+            color="#000000"
+            material="transparent: true; opacity: 0.1;"
+            width="1"
+            height="1"
+            position="0 0 -0.01 "
+          ></a-plane>
 
           <!-- Include our 3D model-->
-          <a-entity scale='0.2 0.2 0.2' id="model" gltf-model="url(assets/elka yel.glb)" rotate="0 90 0"animation-mixer="clip: null" mixin="rotate" animation="dur: 12000;"></a-entity>
-
+          <a-entity
+            scale="0.2 0.2 0.2"
+            id="model"
+            gltf-model="url(assets/elka yel.glb)"
+            rotate="0 90 0"
+            animation-mixer="clip: null"
+            mixin="rotate"
+            animation="dur: 12000;"
+          ></a-entity>
         </a-entity>
-
       </a-entity>
-
-
     </a-scene>
   </body>
-
-
 </html>
